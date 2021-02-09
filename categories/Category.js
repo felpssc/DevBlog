@@ -13,4 +13,8 @@ const Category = connection.define('categories', {
   }
 });
 
+Category.sync({ force: false })
+  .then(() => console.log('🔃 categories table synchronized'))
+  .catch((error) => console.log(error));
+
 module.exports = Category;

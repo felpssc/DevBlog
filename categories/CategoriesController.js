@@ -2,12 +2,8 @@ const { request, response } = require('express');
 const express = require('express');
 const router = express.Router();
 
-router.get('/categories', (request, response) => {
-  response.send('Categorias');
-});
-
-router.get('/admin/categories', (request, response) => {
-  response.send('Nova Categoria');
+router.get('/admin/categories/new', (request, response) => {
+  response.render('admin/categories/new', { title: 'Nova categoria' });
 });
 
 module.exports = router;
