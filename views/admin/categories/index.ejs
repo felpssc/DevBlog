@@ -1,0 +1,40 @@
+<%- include('../../partials/header.ejs') %> 
+<body>
+  <%- include('../../partials/navbar-admin.ejs') %> 
+  <div class="container">
+    <br>
+    <br>
+    <div style="display: flex; justify-content: space-between;">
+      <h2>Categorias</h2> 
+      <a style="height: 40px;" class="btn btn-primary" href="/admin/categories/new">✚ Nova categoria</a>
+    </div>
+    <hr>
+    <br>
+    <table class="table table-striped table-hover">
+      <caption>Total de categorias cadastradas: <%= categories.length %></caption> 
+      <thead class="table-dark">
+        <tr>
+          <th>#ID</th>
+          <th>Título</th>
+          <th>Slug</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody class="table-light">
+        <% categories.forEach(category => { %>
+          <tr>
+            <th><%= category.id %> </th>
+            <th><%= category.title %> </th>
+            <th><%= category.slug %> </th>
+            <th>
+              <button class="btn btn-warning">Editar</button>
+              <button class="btn btn-danger">Deletar</button>
+            </th>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+ 
+</body>
+<%- include('../../partials/footer.ejs') %> 
