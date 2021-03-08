@@ -1,0 +1,33 @@
+<%- include('../../partials/header.ejs') %>
+<body>
+  <%- include('../../partials/navbar-admin.ejs') %>
+  
+  <div style="width: 50vw;" class="container">
+    <br />
+    <br>
+    <br>
+    <br />
+    <div class="card">
+      <div class="card-header">
+        <h2 align="center">Editar categoria</h2>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/categories/edit/save">
+          <input
+            class="form-control"
+            type="text"
+            name="title"
+            placeholder="Defina o título da categoria..."
+            value="<%= categoryToEdit.title %>"
+            autofocus
+            required
+          />
+          <input type="hidden" value="<%= categoryToEdit.id %>" name="id" />
+          <br />
+          <button style="width: 100%;" class="btn btn-success">Salvar</button>
+        </form>
+      </div>
+    </div>
+    </div>
+</body>
+<%- include('../../partials/footer.ejs') %>
