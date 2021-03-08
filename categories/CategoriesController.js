@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Category = require('./Category');
 const Slug = require('slugify');
+const { default: slugify } = require('slugify');
 
 router.get('/admin/categories/new', (request, response) => {
   response.render('admin/categories/new', { title: 'Nova categoria' });
@@ -16,7 +17,7 @@ router.post('/categories/save', (request, response) => {
     : Category.create({
       title,
       slug: Slug(title)
-    }).then(() => response.redirect('/')); 
+    }).then(() => response.redirect('/admin/categories')); 
 });
 
 router.get('/admin/categories', async (request, response) => {
@@ -45,6 +46,28 @@ router.post('/categories/delete/', (request, response) => {
     response.redirect('/admin/categories');
   }
 
+});
+
+router.get('/admin/categories/edit/:id', (request, response) => {
+  const { id } = request.params;
+
+  isNaN(id) && response.redirect('/admin/categories');
+
+  Category.findByPk(id).then(categoryToEdit => {
+    categoryToEdit !== undefined 
+      ? response.render('admin/categories/edit', { categoryToEdit, title: 'Editar categoria' })
+      : response.redirect('/admin/categories');
+  }).catch(error => response.redirect('admin/categories'));
+});
+
+router.post('/categories/edit/save', (request, response) => {
+  const { title, id } = request.body;
+
+  Category.update({title: title, slug: slugify(title)}, {
+    where: {
+      id: id
+    }
+  }).then(() => response.redirect('/admin/categories'));
 });
 
 module.exports = router;
