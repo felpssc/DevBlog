@@ -1,4 +1,40 @@
 <%- include('partials/header.ejs') %> 
+<style>
+  p.description {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    opacity: 0.7;
+  }
+</style>
 <body>
+  <%- include('partials/navbar.ejs') %> 
+
+  <div class="container">
+    <br><br>
+    <div class="jumbotron" style="padding: 15px; border-radius: 5px;">
+      <h1 class="display-4">Olá, Dev!</h1>
+      <p class="lead">Seja bem-vindo ao DevBlog, com notícias sobre a atualidade das tecnologias.</p>
+      <hr class="my-4">
+      <p>Artigos mais recentes:</p>
+
+    </div>
+
+
+
+    <br><br>
+    <% articles.forEach(article => { %>
+      <div class="card">
+        <h5 class="card-header bg-secondary text-white"><%= article.category.title %> </h5>
+        <div class="card-body">
+          <h5 class="card-title"><%= article.title %> </h5>
+          <p class="card-text text-truncate description" style="max-width: 100%;">
+            <%= article.description %>...
+          </p>
+          <a href="#" class="btn btn-success">Ler mais</a>
+        </div>
+      </div><br>
+    <% }) %>
+  </div>
 
 </body>
+<%- include('partials/footer.ejs') %> 
