@@ -1,0 +1,66 @@
+<%- include('../../partials/header.ejs') %>
+<script
+  src="https://cdn.tiny.cloud/1/ya533qvjjuprot1lqu3jb6ggfsjdoapge9o0z2uxfc0gt5tm/tinymce/5/tinymce.min.js"
+  referrerpolicy="origin"
+></script>
+<script>
+  tinymce.init({
+    selector: "#mytextarea",
+    plugins: [
+      "advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons code codesample",
+    ],
+    language: "pt_BR"
+  });
+</script>
+<body>
+  <%- include('../../partials/navbar-admin.ejs') %>
+
+  <div style="width: 50vw" class="container">
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="card">
+      <div class="card-header">
+        <h2 align="center">Criar novo artigo</h2>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="/articles/save" novalidate>
+          <labe>Título:</labe>
+          <input
+            class="form-control"
+            type="text"
+            name="title"
+            placeholder="Defina o título do artigo..."
+            required
+          /><br>
+          <label>Descrição:</label>
+          <input
+            placeholder="Descreva o assunto do artigo"
+            class="form-control"
+            name="description"
+            required
+          />
+          <br />
+          <textarea
+            placeholder="Escreva aqui o artigo..."
+            id="mytextarea"
+            name="body"
+            style="height: 35rem"
+            required
+          ></textarea>
+          <br />
+          <label>Selecione a categoria do artigo:</label>
+          <select name="category" class="form-control">
+            <% categories.forEach(category => { %>
+             <option value="<%= category.id %>" ><%= category.title %></option>
+            <% }) %>
+          </select>
+          <br> 
+          <button type="submit" style="width: 100%" class="btn btn-success">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<%- include('../../partials/footer.ejs') %>
