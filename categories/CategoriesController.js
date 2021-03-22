@@ -31,8 +31,7 @@ router.get('/admin/categories', async (request, response) => {
 router.post('/categories/delete/', (request, response) => {
   const { id } = request.body;
 
-  if(id) {
-    
+  if(id) { 
     if(!isNaN(id)) {
       Category.destroy({
         where: {
