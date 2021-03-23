@@ -51,4 +51,30 @@ router.post('/articles/delete/', (request, response) => {
   }
 });
 
+router.get('/admin/articles/edit/:id', (request, response) => {
+  const { id } = request.params;
+
+  Article.findOne({
+    where: {
+      id: id
+    }
+  }).then(article => {
+    Category.findAll().then(categories => {
+      response.render('admin/articles/edit', { article, title: article.title, categories });
+    });
+  })
+
+});
+
+router.post('/articles/edit/save', (request, response) => {
+  const { id, title, description, body, category } = request.body;
+
+  Article.update({ title, description, body, categoryId: category }, {
+    where: {
+      id: id
+    }
+  }).then(() => response.redirect('/admin/articles'));
+
+});
+
 module.exports = router;
