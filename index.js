@@ -29,13 +29,54 @@ app.use("/", articlesController);
 
 app.get("/", async (request, response) => {
   Article.findAll({
-    include: [{ model: Category}]
+    include: [{ model: Category}],
+    order: [
+      ['id', 'DESC']
+    ]
   }).then((articles) => {
-    response.render("index", {
-      title: "Home",
-      articles,
+    Category.findAll().then(categories => {
+      response.render("index", {
+        title: "Home",
+        articles,
+        categories
+      });
     });
   });
+});
+
+app.get('/:slug', (request, response) => {
+  const { slug } = request.params;
+  Article.findOne({
+    where: {
+      slug: slug
+    }
+  }).then(article => {
+    if(article) {
+      Category.findAll().then(categories => {
+        response.render("article", { article, title: article.title, categories });
+      });
+    } else {
+      response.redirect('/');
+    }
+  }).catch(error => response.redirect('/'));
+});
+
+app.get('/categories/:slug', (request, response) => {
+  const { slug } = request.params;
+  Category.findOne({
+    where: {
+      slug: slug
+    },
+    include: [{ model: Article }]
+  }).then(category => {
+    if(category) {
+      Category.findAll().then(categories => {
+        response.render("index", { articles: category.articles, categories, title: category.title })
+      });
+    } else {
+      response.redirect('/');
+    }
+  }).catch(error => response.redirect('/'));
 });
 
 // port
