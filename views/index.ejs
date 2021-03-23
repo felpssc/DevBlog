@@ -1,4 +1,5 @@
-<%- include('partials/header.ejs') %> 
+<%- include('partials/header.ejs') %>
+
 <style>
   p.description {
     max-width: 100%;
@@ -7,34 +8,52 @@
   }
 </style>
 <body>
-  <%- include('partials/navbar.ejs') %> 
+  <%- include('partials/navbar.ejs') %>
 
   <div class="container">
-    <br><br>
-    <div class="jumbotron" style="padding: 15px; border-radius: 5px;">
+    <br /><br />
+    <div class="jumbotron" style="padding: 15px; border-radius: 5px">
       <h1 class="display-4">Olá, Dev!</h1>
-      <p class="lead">Seja bem-vindo ao DevBlog, com notícias sobre a atualidade das tecnologias.</p>
-      <hr class="my-4">
+      <p class="lead">
+        Seja bem-vindo ao DevBlog, com notícias sobre a atualidade das
+        tecnologias.
+      </p>
+      <hr class="my-4" />
       <p>Artigos mais recentes:</p>
-
     </div>
-
-
-
-    <br><br>
+    <br /><br />
     <% articles.forEach(article => { %>
-      <div class="card">
-        <h5 class="card-header bg-secondary text-white"><%= article.category.title %> </h5>
-        <div class="card-body">
-          <h5 class="card-title"><%= article.title %> </h5>
-          <p class="card-text text-truncate description" style="max-width: 100%;">
-            <%= article.description %>...
-          </p>
-          <a href="#" class="btn btn-success">Ler mais</a>
-        </div>
-      </div><br>
+    <div class="card">
+      <h5 class="card-header text-secondary">
+        <% if (article.category){ %> <%= article.category.title %> <% } else{ %>
+        <%= title %> <% } %>
+      </h5>
+      <div class="card-body">
+        <h5 class="card-title"><%= article.title %></h5>
+        <p class="card-text text-truncate description" style="max-width: 100%">
+          <%= article.description %>...
+        </p>
+        <a href="/<%= article.slug %>" class="btn btn-success">Ler mais</a>
+      </div>
+    </div>
+    <br />
     <% }) %>
   </div>
 
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
 </body>
-<%- include('partials/footer.ejs') %> 
+<%- include('partials/footer.ejs') %>
