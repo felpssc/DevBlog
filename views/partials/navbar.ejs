@@ -1,5 +1,27 @@
-<nav class="navbar navbar-dark bg-dark">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a style="margin-left: 40px;" class="navbar-brand" href="/">
     DevBlog💻
   </a>
+
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" aria-current="/" href="/">Home</a>
+    </li>
+
+    <li>
+      <div class="dropdown show">
+        <a style="z-index: 100;" class="btn text-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categorias
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <% categories.forEach(category => { %>
+            <a class="dropdown-item" href="/categories/<%= category.slug %>"><%= category.title %></a>
+          <% }) %>
+        </div>
+      </div>
+    </li>
+  </ul>
 </nav>
+
