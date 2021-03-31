@@ -6,8 +6,10 @@ const app = express();
 const connection = require("./database/database");
 const categoriesController = require("./categories/CategoriesController");
 const articlesController = require("./articles/ArticlesController");
+const usersController = require('./user/UsersController');
 const Category = require("./categories/Category");
 const Article = require("./articles/Article");
+const User = require('./user/User');
 
 // app configs
 app.set("view engine", "ejs");
@@ -27,12 +29,18 @@ app.use("/", categoriesController);
 
 app.use("/", articlesController);
 
+app.use("/", usersController)
+
 app.get("/", async (request, response) => {
+  
+  const articlesLimit = 4;
+  
   Article.findAll({
     include: [{ model: Category}],
     order: [
       ['id', 'DESC']
-    ]
+    ],
+    limit: articlesLimit
   }).then((articles) => {
     Category.findAll().then(categories => {
       response.render("index", {
