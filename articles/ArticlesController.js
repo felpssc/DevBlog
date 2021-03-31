@@ -62,19 +62,56 @@ router.get('/admin/articles/edit/:id', (request, response) => {
     Category.findAll().then(categories => {
       response.render('admin/articles/edit', { article, title: article.title, categories });
     });
-  })
+  }).catch(error => response.redirect('/admin/articles'));
 
 });
 
 router.post('/articles/edit/save', (request, response) => {
   const { id, title, description, body, category } = request.body;
 
-  Article.update({ title, description, body, categoryId: category }, {
+  Article.update({ title, description, body, categoryId: category, slug: slugify(title) }, {
     where: {
       id: id
     }
   }).then(() => response.redirect('/admin/articles'));
 
+});
+
+router.get('/articles/page/:number_page', (request, response) => {
+  const { number_page } = request.params;
+  let calcOffset = 0;
+  const articlesLimit = 4;
+
+  isNaN(number_page) || number_page == 1 
+    ? calcOffset = 0
+    : calcOffset = (parseInt(number_page) - 1) * articlesLimit;
+
+  Article.findAndCountAll({
+    limit: articlesLimit,
+    offset: calcOffset,
+    order: [
+      ['id', 'DESC']
+    ]
+  }).then(articles => {
+
+    var next;
+
+    if(calcOffset + articlesLimit >= articles.count) {
+      next = false;
+    } else {
+      next = true;
+    }
+
+    const result = {
+      number_page: parseInt(number_page),
+      next,
+      articles
+    }
+
+    Category.findAll().then(categories => {
+      response.render('admin/articles/page', { title: 'Artigos', categories, result })
+    });
+  });
 });
 
 module.exports = router;
