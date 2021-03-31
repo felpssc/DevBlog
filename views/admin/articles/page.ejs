@@ -1,0 +1,63 @@
+<%- include('../../partials/header.ejs') %>
+
+<style>
+  p.description {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    opacity: 0.7;
+  }
+</style>
+<body>
+  <%- include('../../partials/navbar.ejs') %>
+
+  <div class="container">
+    <br /><br />
+    <br /><br />
+    <% result.articles.rows.forEach(article => { %>
+    <div class="card">
+      <h5 class="card-header text-secondary">
+        <% if (article.category){ %> <%= article.category.title %> <% } else{ %>
+        <%= title %> <% } %>
+      </h5>
+      <div class="card-body">
+        <h5 class="card-title"><%= article.title %></h5>
+        <p class="card-text text-truncate description" style="max-width: 100%">
+          <%= article.description %>...
+        </p>
+        <a href="/<%= article.slug %>" class="btn btn-success">Ler mais</a>
+      </div>
+    </div>
+    <br />
+    <% }) %>
+    <div class="text-center">
+      <div class="col col-12">
+        <% if (result.next) { %>
+          <a style="float: right;" href="/articles/page/<%= result.number_page + 1 %>" class="btn btn-secondary">Próxima >></a>
+        <% } %>
+
+        <% if (result.number_page > 2) { %>
+          <a style="float: left;" href="/articles/page/<%= result.number_page - 1 %>" class="btn btn-secondary"><< Anterior</a>
+        <% } else if (result.number_page === 2) { %>
+          <a style="float: left;" href="/" class="btn btn-secondary"><< Anterior</a>
+       <% } %>
+      </div>
+    </div>
+  </div>
+
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
+</body>
+<%- include('../../partials/footer.ejs') %>
