@@ -1,0 +1,50 @@
+<%- include('../../partials/header.ejs') %> 
+<body>
+  <%- include('../../partials/navbar-admin.ejs') %> 
+  <div class="container">
+    <br>
+    <br>
+    <div style="display: flex; justify-content: space-between;">
+      <h2>Categorias</h2> 
+      <a style="height: 40px;" class="btn btn-primary" href="/admin/users/create">✚ Novo usuário</a>
+    </div>
+    <hr>
+    <br>
+    <table class="table table-bordered table-hover">
+      <caption>Total de usuários cadastrados: <%= users.length %></caption> 
+      <thead class="table-success">
+        <tr>
+          <th>#ID</th>
+          <th>email</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody class="table-light">
+        <% users.forEach(user => { %>
+          <tr>
+            <th><%= user.id %> </th>
+            <th><%= user.email %> </th>
+            <th>
+              <a href="/admin/categories/edit/<%= user.id %>"><button class="btn btn-warning" value="<%= user.id %> ">Editar</button></a>
+              <form onsubmit="confirmDelete(event)" method="POST" action="/categories/delete" style="display: inline;">
+                <input type="hidden" name="id" value="<%= user.id %>" >
+                <button class="btn btn-danger">Deletar</button>
+              </form>
+            </th>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    function confirmDelete(event) {
+      const confirmation = window.confirm('Deseja realmente deletar essa categoria?');
+
+      if(!confirmation) {
+        event.preventDefault();
+      }
+    }
+  </script>
+</body>
+<%- include('../../partials/footer.ejs') %> 
