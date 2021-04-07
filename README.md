@@ -20,7 +20,7 @@
 <br>
 
 <p>
-    <img alt="App" src="https://i.imgur.com/Uzi7MdS.gif" />
+    <img alt="App" src="./public/img/devBlog.gif" />
   </a>
 </p>
 
