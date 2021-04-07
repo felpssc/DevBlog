@@ -1,0 +1,38 @@
+<%- include('../../partials/header.ejs') %>
+<br />
+<br />
+<br />
+
+<div style="display: flex; justify-content: center" class="container">
+  <div style="width: 40vw" class="card mt-5">
+    <div class="card-header">
+      <h4>Fazer login</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="/admin/authenticate">
+        <label>Email:</label><br />
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          placeholder="example@email.com"
+        />
+        <label class="mt-2">Senha:</label><br />
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          placeholder="senha"
+        />
+
+        <input
+          type="submit"
+          class="form-control btn btn-success mt-3 btn-lg"
+          value="Entrar"
+        />
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer.ejs') %>

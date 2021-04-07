@@ -2,6 +2,8 @@
 const express = require("express");
 const { request, response } = require("express");
 const bodyParser = require("body-parser");
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const app = express();
 const connection = require("./database/database");
 const categoriesController = require("./categories/CategoriesController");
@@ -16,6 +18,24 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
+app.use(cookieParser());
+
+// Sessions
+
+const MemoryStore = session.MemoryStore;
+
+app.use(session({
+  name : 'myCookies',
+  secret: 'KD12kjd2ERN',
+  cookie: {
+    maxAge: 86400000,
+    httpOnly: false,
+    secure: false
+  },
+  resave: true,
+  store: new MemoryStore(),
+  saveUninitialized: true
+}));
 
 // database
 connection
@@ -86,6 +106,15 @@ app.get('/categories/:slug', (request, response) => {
     }
   }).catch(error => response.redirect('/'));
 });
+
+// app.get('/session/create', (request, response) => {
+//   request.session.user = 'o tal';
+//   return response.send('sessão iniciada.');
+// });
+
+// app.get('/session/read', async (request, response) => {
+//   return response.json(await request.session.user);
+// });
 
 // port
 app.listen(3000, () => console.log("🔥 Back-end started! port: 3000"));

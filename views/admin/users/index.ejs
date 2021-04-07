@@ -16,7 +16,6 @@
         <tr>
           <th>#ID</th>
           <th>email</th>
-          <th>Ações</th>
         </tr>
       </thead>
       <tbody class="table-light">
@@ -24,27 +23,10 @@
           <tr>
             <th><%= user.id %> </th>
             <th><%= user.email %> </th>
-            <th>
-              <a href="/admin/categories/edit/<%= user.id %>"><button class="btn btn-warning" value="<%= user.id %> ">Editar</button></a>
-              <form onsubmit="confirmDelete(event)" method="POST" action="/categories/delete" style="display: inline;">
-                <input type="hidden" name="id" value="<%= user.id %>" >
-                <button class="btn btn-danger">Deletar</button>
-              </form>
-            </th>
           </tr>
         <% }); %>
       </tbody>
     </table>
   </div>
-  
-  <script>
-    function confirmDelete(event) {
-      const confirmation = window.confirm('Deseja realmente deletar essa categoria?');
-
-      if(!confirmation) {
-        event.preventDefault();
-      }
-    }
-  </script>
 </body>
 <%- include('../../partials/footer.ejs') %> 

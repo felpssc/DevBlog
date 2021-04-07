@@ -1,24 +1,26 @@
 const { request, response } = require('express');
-const { hash } = require('bcryptjs');
+const { hash, compareSync } = require('bcryptjs');
 const uuid = require('uuid');
 const alert = require('alert');
 const express = require('express');
+const session = require('express-session');
 const router = express.Router();
 const User = require('./User');
+const adminAuth = require('../middlewares/adminAuth');
 
 
 
-router.get('/admin/users', (request, response) => {
+router.get('/admin/users', adminAuth, (request, response) => {
   User.findAll().then(users => {
     response.render('admin/users/index', { title: 'Lista de usuários', users })
   });
 });
 
-router.get('/admin/users/create', (request, response) => {
+router.get('/admin/users/create', adminAuth, (request, response) => {
   response.render('admin/users/create', { title: 'Criar usuário' });
 });
 
-router.post('/users/create', async (request, response) => {
+router.post('/users/create', adminAuth, async (request, response) => {
   const { email, password } = request.body;
 
 
@@ -44,6 +46,39 @@ router.post('/users/create', async (request, response) => {
     }
   });
 
+});
+
+router.get('/admin/login', (request, response) => {
+  return response.render('admin/users/login', { title: 'Login' });
+});
+
+router.post('/admin/authenticate', (request, response) => {
+  const { email, password } = request.body;
+
+  User.findOne({ where: { email } }).then(user => {
+    if(user) {
+      const isCredentialsCorrect = compareSync(password, user.password);
+
+      if(isCredentialsCorrect) {
+        request.session.user = {
+          user_id: user.id,
+          email: user.email
+        }
+        response.redirect('/admin/articles');
+      } else {
+        alert('Email e/ou senha incorretos!');
+        response.redirect('/admin/login');
+      }
+
+    } else {
+      response.redirect('/admin/login');
+    }
+    
+  })
+});
+
+router.get('/admin/logout', (request, response) => {
+  request.session.destroy().then(response.redirect('/admin/login'));
 });
 
 

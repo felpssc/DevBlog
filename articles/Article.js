@@ -23,13 +23,13 @@ const Article = connection.define('articles', {
     allowNull: false
   }
 
-});
+}); 
 
 Category.hasMany(Article);
 Article.belongsTo(Category);
 
 Article.sync({ force: false })
   .then(() => console.log('🔃 articles table synchronized'))
-  .catch((error) => console.log(error));;
+  .catch((error) => console.log(error));
 
 module.exports = Article;
